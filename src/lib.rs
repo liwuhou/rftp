@@ -1,10 +1,8 @@
-extern crate ftp;
-
 use clap::Parser;
-use ftp::FtpStream;
 use std::error::Error;
 use std::fs::read;
 use std::io::Cursor;
+use suppaftp::FtpStream;
 
 #[derive(Debug, Parser)]
 #[command(author, version, about, long_about = None)]
@@ -46,7 +44,7 @@ impl Cli {
         let file = read(&source_path)?;
         let file_bytes = file.as_slice();
         let mut reader = Cursor::new(file_bytes);
-        ftp_stream.put(&file_name, &mut reader)?;
+        ftp_stream.put_file(&file_name, &mut reader)?;
 
         ftp_stream.quit()?;
         Ok(())
